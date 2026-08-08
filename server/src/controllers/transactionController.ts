@@ -2,6 +2,7 @@ import { Router } from "express";
 import { getTransactions } from "../services/transactionService";
 import { Transaction } from "../models/transactions";
 import { addNewTransaction } from "../services/transactionService";
+import { normalizeDateInput } from "../utils/dateUtils";
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.get("/get-transactions", async (req, res) => {
     const transactions = await getTransactions();
     res.json(transactions);
 });
+
 
 /**
  * @openapi
@@ -54,19 +56,25 @@ router.get("/get-transactions", async (req, res) => {
  */
 
 router.post("/add-new-transaction", async (req, res) => {
-    const today = new Date().toISOString().split("T")[0]; 
-   const transaction = {
+  const normalizedTransactionDate = normalizeDateInput(req.body?.transactionDate);
+
+  const transaction = {
     ...req.body,
-    transactionDate: today
-   } as Transaction;
-   
+    transactionDate: normalizedTransactionDate,
+  } as Transaction;
 
-   if (!transaction.transactionDate ||!transaction.accountNumber ||!transaction.accountHolder || transaction.amount === undefined || !transaction.status) {
-        return res.status(400).json({ error: "Missing required transaction fields" });
-    }
+  if (
+    !transaction.transactionDate ||
+    !transaction.accountNumber ||
+    !transaction.accountHolder ||
+    transaction.amount === undefined ||
+    !transaction.status
+  ) {
+    return res.status(400).json({ error: "Missing required transaction fields" });
+  }
 
-    const addedNewTransaction = await addNewTransaction(transaction);
-    res.status(201).json(addedNewTransaction);
+  const addedNewTransaction = await addNewTransaction(transaction);
+  res.status(201).json(addedNewTransaction);
 });
 
 export default router;

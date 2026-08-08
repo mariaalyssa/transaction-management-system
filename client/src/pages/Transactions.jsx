@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TransactionsTable from "../components/TransactionsTable";
 import AddNewBtn from "../components/AddNewBtn";
 
-export default function Transactions() {
+export default function Transactions({onGoToAdd}) {
   const [transactions, setTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState([1]);
   const pageSize = 10;
@@ -40,7 +40,7 @@ export default function Transactions() {
     <div className="main">
      <div className="transaction-header">
         <h1>Transactions</h1>
-        <AddNewBtn />
+        <AddNewBtn onClick={onGoToAdd}/>
         </div>
       <TransactionsTable transactions={visibleTransactions} />
 
