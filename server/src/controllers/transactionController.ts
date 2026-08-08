@@ -44,7 +44,6 @@ router.get("/get-transactions", async (req, res) => {
  *                 type: string
  *                 enum: [Pending, Settled, Failed]
  *             required:
- *               - transactionDate
  *               - accountNumber
  *               - accountHolder
  *               - amount
@@ -55,7 +54,12 @@ router.get("/get-transactions", async (req, res) => {
  */
 
 router.post("/add-new-transaction", async (req, res) => {
-    const transaction = req.body as Transaction;
+    const today = new Date().toISOString().split("T")[0]; 
+   const transaction = {
+    ...req.body,
+    transactionDate: today
+   } as Transaction;
+   
 
    if (!transaction.transactionDate ||!transaction.accountNumber ||!transaction.accountHolder || transaction.amount === undefined || !transaction.status) {
         return res.status(400).json({ error: "Missing required transaction fields" });
