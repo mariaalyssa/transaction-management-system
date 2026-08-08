@@ -1,10 +1,10 @@
-function AddNewBtn() {
-   return (
-    <button type="button" className="add-transaction-btn">
+function AddNewBtn({ onClick }) {
+  return (
+    <button type="button" className="add-transaction-btn" onClick={onClick}>
       Add Transaction
     </button>
   );
 }
 
-export default AddNewBtn
+export default AddNewBtn;
 

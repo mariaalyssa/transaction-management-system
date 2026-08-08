@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Package manager files and caches
+package-lock.json
+.vite/
+.cache/
+.parcel-cache/
+.env.local
