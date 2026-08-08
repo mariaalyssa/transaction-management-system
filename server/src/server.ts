@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
+import transactionRouter from "./controllers/transactionController";
 
 const app = express();
 const PORT = 8080;
@@ -16,7 +17,7 @@ const swaggerOptions = {
     },
     servers: [{ url: `http://localhost:${PORT}`, description: "Local server" }],
   },
-  apis: ["./src/server.ts"],
+  apis: ["./src/server.ts", "./src/controllers/*.ts"],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -24,6 +25,7 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use(cors());
 app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(transactionRouter);
 app.get("/api-docs.json", (_req, res) => {
   res.json(swaggerSpec);
 });
