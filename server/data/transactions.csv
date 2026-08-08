@@ -13,3 +13,5 @@ Transaction Date,Account Number,Account Holder Name,Amount,Status
 2025-03-10,4646-8282-1919,Amanda Robinson,300.50,Settledstring, string, string, 0, Pending
 2026-08-08, 1234-5678-9100, Belle Abalos, 500, Pending
 2026-08-08, 0987-6543-2100, Alyssa Abalos, 900, Settled
+2026-08-08, 1999-9999-9999, Ariana Grande, 300.25, Failed
+2026-08-08, 2345-0128-9763, John Doe, 75.5, Pending
