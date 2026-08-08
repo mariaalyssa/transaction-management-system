@@ -28,3 +28,8 @@ lerna-debug.log*
 
 # Operating system files
 Thumbs.db
+
+# Package manager lockfiles
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
