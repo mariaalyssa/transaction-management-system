@@ -43,10 +43,10 @@ app.get("/api-docs.json", (_req, res) => {
  *               properties:
  *                 status:
  *                   type: string
- *                   example: UP
+ *                   example: "Welcome to the Transaction Management API. Server is running!"
  */
 app.get("/health", (_req, res) => { // health check endpoint
-  res.json({ status: "UP" });
+  res.json({ status: "Welcome to the Transaction Management API. Server is running!" });
 });
 
 app.listen(PORT, () => {
