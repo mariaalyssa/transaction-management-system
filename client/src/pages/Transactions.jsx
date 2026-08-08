@@ -1,16 +1,70 @@
-const transactions = [
-  { transactionDate: "2026-08-08", accountNumber: "1234-5678-9100", accountHolderName: "Belle Burry", amount: 500, status: "Settled" },
-  { transactionDate: "2026-08-09", accountNumber: "0987-6544-3210", accountHolderName: "John Doe", amount: 500, status: "Pending" },
-  { transactionDate: "2026-08-10", accountNumber: "4567-8907-4477", accountHolderName: "Juan Dela Cruz", amount: 500, status: "Failed" },
-];
+import { useEffect, useState } from "react";
+import TransactionsTable from "../components/TransactionsTable";
+import AddNewBtn from "../components/AddNewBtn";
 
 export default function Transactions() {
+  const [transactions, setTransactions] = useState([]);
+  const [currentPage, setCurrentPage] = useState([1]);
+  const pageSize = 10;
+ 
+
+  useEffect(() => {
+    async function loadTransactions() {
+      try {
+        const res = await fetch("http://localhost:8080/get-transactions");
+        if (!res.ok) {
+          throw new Error(`Fetch failed: ${res.status}`);
+        }
+        const data = await res.json();
+
+     
+        const normalized = data.map((transaction) => ({
+          ...transaction,
+          accountHolderName: transaction.accountHolder,
+        }));
+
+        setTransactions(normalized);
+      } catch (error) {
+        console.error("Failed to load transactions:", error);
+      }
+    }
+
+    loadTransactions();
+  }, []);
+
+  const totalPages = Math.ceil(transactions.length/pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const visibleTransactions = transactions.slice(startIndex, startIndex + pageSize);
+
   return (
     <div className="main">
-      <h1 className="transaction-header">Transactions</h1>
-      
+     <div className="transaction-header">
+        <h1>Transactions</h1>
+        <AddNewBtn />
+        </div>
+      <TransactionsTable transactions={visibleTransactions} />
+
+      <div className="pagination">
+        <button
+          className="prev"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <button
+          className="next"
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
-
-export { transactions };
