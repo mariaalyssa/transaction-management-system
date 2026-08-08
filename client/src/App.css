@@ -175,15 +175,16 @@ body,
 }
 
 .status-badge.settled {
-  background-color: #83e4d8;
+  background-color: #c1e897;
 }
 
 .status-badge.pending {
-  background-color: #f2bc8b;
+  background-color: #edcc6a;
 }
 
 .status-badge.failed {
   background-color: #f18c94;
+  color: rgb(239, 238, 238);
 }
 
 .transaction-table-wrapper {
