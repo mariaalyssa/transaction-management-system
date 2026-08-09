@@ -34,12 +34,18 @@ body,
   min-height: 0;
 }
 
-.sidebar-logo{
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  margin-left: 25px;
-  margin-right: 10px;
+
+.sidebar {
+  width: 400px;
+  min-height: 100vh;
+
+  background: #ffffff;
+  border-right: 1px solid #eeeeee;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
 }
 
 .sidebar-header {
@@ -49,6 +55,79 @@ body,
   padding-top: 10px;
   padding-bottom: 50px;
 }
+
+.sidebar-logo {
+   width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-left: 25px;
+  margin-right: 10px;
+}
+
+.circle-pay {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 500;
+
+  color: #a77f7f;
+}
+
+
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px 12px;
+
+  gap: 6px;
+}
+
+
+
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 14px 16px;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  color: #9d7d7d;
+
+  font-size: 16px;
+  font-weight: 400;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+
+
+.sidebar-item:hover {
+  background-color: #f8f3f3;
+  color: #8f6d6d;
+}
+
+
+/* Active page */
+
+.sidebar-item.active {
+  background-color: #f5eeee;
+  color: #956f6f;
+
+  font-weight: 500;
+}
+
+
 
 .circle-pay {
   margin: 0;
@@ -349,5 +428,90 @@ body,
 }
 
 .submit-btn:hover {
+  background-color: #7eddd1;
+}
+
+.success-dialog {
+  width: 400px;
+  padding: 0;
+
+  border: none;
+  border-radius: 14px;
+
+  background: white;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Background behind dialog */
+.success-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* Dialog content */
+.dialog-content {
+  padding: 35px;
+
+  text-align: center;
+}
+
+/* Checkmark */
+.success-icon {
+  width: 60px;
+  height: 60px;
+
+  margin: 0 auto 18px;
+
+  border-radius: 50%;
+
+  background-color: #8ee5d9;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Title */
+.dialog-content h2 {
+  margin: 0 0 10px;
+
+  color: #a87979;
+
+  font-size: 26px;
+  font-weight: 500;
+}
+
+/* Message */
+.dialog-content p {
+  margin: 0 0 25px;
+
+  color: #777;
+
+  font-size: 16px;
+}
+
+/* OK button */
+.dialog-ok-btn {
+  width: 120px;
+  height: 45px;
+
+  border: 1px solid #68c8bd;
+  border-radius: 8px;
+
+  background-color: #8ee5d9;
+
+  color: #a87979;
+
+  font-size: 16px;
+
+  cursor: pointer;
+}
+
+.dialog-ok-btn:hover {
   background-color: #7eddd1;
 }

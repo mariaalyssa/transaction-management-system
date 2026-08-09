@@ -40,7 +40,7 @@ export default function Transactions({onGoToAdd}) {
     <div className="main">
      <div className="transaction-header">
         <h1>Transactions</h1>
-        <AddNewBtn onClick={onGoToAdd}/>
+        /*<AddNewBtn onClick={onGoToAdd}/>
         </div>
       <TransactionsTable transactions={visibleTransactions} />
 

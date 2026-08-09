@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SuccessModal from "./SuccessModal";
 
 function getTodayIso() {
   const today = new Date();
@@ -31,10 +32,11 @@ function normalizeDateInput(input) {
   return "";
 }
 
-function formatAccountNumber(value){
-    const digits = String(value).replace(/\D/g, "").slice(0,12);
-    return digits.replace(/(.{4})/g, "$1-").replace(/-$/, "");
+function formatAccountNumber(value) {
+  const digits = String(value).replace(/\D/g, "").slice(0, 12);
+  return digits.replace(/(.{4})/g, "$1-").replace(/-$/, "");
 }
+
 function AddTransactionForm({ onBack }) {
   const [transactionDate, setTransactionDate] = useState(getTodayIso());
   const [accountNumber, setAccountNumber] = useState("");
@@ -43,6 +45,7 @@ function AddTransactionForm({ onBack }) {
   const [status, setStatus] = useState("Pending");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,12 +57,12 @@ function AddTransactionForm({ onBack }) {
     }
 
     const payload = {
-    transactionDate: normalizeDateInput(transactionDate) || undefined,
-    accountNumber: formatAccountNumber(accountNumber),
-    accountHolder,
-    amount: Number(amount),
-    status,
-};
+      transactionDate: normalizeDateInput(transactionDate) || undefined,
+      accountNumber: formatAccountNumber(accountNumber),
+      accountHolder,
+      amount: Number(amount),
+      status,
+    };
 
     setLoading(true);
     try {
@@ -70,7 +73,7 @@ function AddTransactionForm({ onBack }) {
       });
 
       if (res.status === 201) {
-        onBack && onBack();
+        setShowSuccess(true);
       } else {
         const body = await res.json().catch(() => ({}));
         setError(body?.error || `Server returned ${res.status}`);
@@ -162,6 +165,14 @@ function AddTransactionForm({ onBack }) {
           </button>
         </div>
       </form>
+
+     <SuccessModal
+      showModal={showSuccess}
+      onOk={() => {
+        setShowSuccess(false);
+        onBack();
+      }}
+    />
     </div>
   );
 }
