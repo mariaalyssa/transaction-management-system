@@ -1,45 +1,36 @@
-import { useState, useEffect } from "react"
+import { useState } from "react";
 
-function Filter(){
-    const [isOpen, setIsOpen]=useState(false);
-    const[selectedFilter, setSelectedFilter]=useState("Filter")
+function Filter({ selectedFilter, onFilterChange }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const Filters = ["All", "Pending", "Settled", "Failed"];
 
-    const Filters = ["Pending", "Settled", "Failed"];
+  const handleFilterClick = (filter) => {
+    onFilterChange(filter);
+    setIsOpen(false);
+  };
 
-    const handleFilterClick = (filter) => {
-        setSelectedFilter(filter);
-        setIsOpen(false);
-    }
-
-    return(
+  return (
     <div className="filter-container">
-        <button
-            className="filter-button"
-            onClick={() => setIsOpen(!isOpen)}
-        >
-            <span>{selectedFilter}</span>
+      <button className="filter-button" onClick={() => setIsOpen(!isOpen)}>
+        <span>{selectedFilter}</span>
+        <span className={`arrow ${isOpen ? "rotate" : ""}`}>▼</span>
+      </button>
 
-            <span className={`arrow ${isOpen ? "rotate" : ""}`}>
-            ▼
-            </span>
-        </button>
-
-        {isOpen && (
-            <div className="filter-menu">
-            {Filters.map((filter) => (
-                <button
-                key={filter}
-                className="filter-option"
-                onClick={() => handleFilterClick(filter)}
-                >
-                {filter}
-                </button>
-            ))}
-            </div>
-        )}
+      {isOpen && (
+        <div className="filter-menu">
+          {Filters.map((filter) => (
+            <button
+              key={filter}
+              className="filter-option"
+              onClick={() => handleFilterClick(filter)}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
-    
 }
 
 export default Filter;
