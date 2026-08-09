@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { getTransactions } from "../services/transactionService";
-import { Transaction } from "../models/transactions";
-import { addNewTransaction } from "../services/transactionService";
+import { getTransactions, addNewTransaction, getTransactionByStatus } from "../services/transactionService";
+import { Transaction, transactionStatus } from "../models/transactions";
 import { normalizeDateInput } from "../utils/dateUtils";
 
 const router = Router();
+
 
 /**
  * @openapi
@@ -19,6 +19,51 @@ const router = Router();
 router.get("/get-transactions", async (req, res) => {
     const transactions = await getTransactions();
     res.json(transactions);
+});
+
+/**
+ * @openapi
+ * /get-transactions/pending:
+ *   get:
+ *     summary: Get all transactions if filter is pending
+ *     responses:
+ *       200:
+ *         description: A list of transactions
+ */
+
+router.get("/get-transactions/pending", async (_req, res) => {
+  const transactions = await getTransactionByStatus("Pending");
+  res.json(transactions);
+});
+
+/**
+ * @openapi
+ * /get-transactions/settled:
+ *   get:
+ *     summary: Get all transactions if filter is settled
+ *     responses:
+ *       200:
+ *         description: A list of transactions
+ */
+
+router.get("/get-transactions/settled", async (_req, res) => {
+  const transactions = await getTransactionByStatus("Settled");
+  res.json(transactions);
+});
+
+/**
+ * @openapi
+ * /get-transactions/failed:
+ *   get:
+ *     summary: Get all transactions if filter is failed
+ *     responses:
+ *       200:
+ *         description: A list of transactions
+ */
+
+router.get("/get-transactions/failed", async (_req, res) => {
+  const transactions = await getTransactionByStatus("Failed");
+  res.json(transactions);
 });
 
 
@@ -77,4 +122,7 @@ router.post("/add-new-transaction", async (req, res) => {
   res.status(201).json(addedNewTransaction);
 });
 
+
 export default router;
+
+

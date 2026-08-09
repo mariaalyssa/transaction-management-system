@@ -1,7 +1,6 @@
 import logo from "../assets/logo.jpeg";
 
-
-function Sidebar() {
+function Sidebar({ onGoToAdd, onGoToTransactions }) {
   return (
     <div className="sidebar">
 
@@ -20,16 +19,15 @@ function Sidebar() {
 
       <nav className="sidebar-nav">
 
-        <a href="/transactions" className="sidebar-item active">
+        <button type="button" className="sidebar-item active" onClick={onGoToTransactions}>
           <span>Transactions</span>
-        </a>
+        </button>
 
-        <a href="/add-transaction" className="sidebar-item">
+        <button type="button" className="sidebar-item active" onClick={onGoToAdd}>
           <span>Add Transaction</span>
-        </a>
+        </button>
 
-        <a href="/export" className="sidebar-item">
-   
+        <a href="/export" className="sidebar-item active">
           <span>Export to PDF</span>
         </a>
 

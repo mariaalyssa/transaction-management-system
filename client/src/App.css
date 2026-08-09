@@ -20,11 +20,7 @@ body,
   overflow: hidden;
 }
 
-.sidebar {
-  width: 400px;
-  background: #FFFBFB;
-  padding: 16px;
-}
+
 
 .main {
   flex: 1;
@@ -38,13 +34,11 @@ body,
 .sidebar {
   width: 400px;
   min-height: 100vh;
-
+  padding: 16px;
   background: #ffffff;
   border-right: 1px solid #eeeeee;
-
   display: flex;
   flex-direction: column;
-
   box-sizing: border-box;
 }
 
@@ -90,20 +84,13 @@ body,
 .sidebar-item {
   display: flex;
   align-items: center;
-
   gap: 14px;
-
   padding: 14px 16px;
-
   border-radius: 8px;
-
   text-decoration: none;
-
   color: #9d7d7d;
-
   font-size: 16px;
   font-weight: 400;
-
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -112,10 +99,6 @@ body,
 
 
 
-.sidebar-item:hover {
-  background-color: #f8f3f3;
-  color: #8f6d6d;
-}
 
 
 /* Active page */

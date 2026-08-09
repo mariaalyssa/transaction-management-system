@@ -21,6 +21,15 @@ export async function getTransactions(): Promise<Transaction[]> {
   });
   return transactions;
 }
+
+export async function getTransactionByStatus(
+  status: transactionStatus
+): Promise<Transaction[]> {
+  const transactions = await getTransactions();
+  return transactions.filter((transaction) => transaction.status === status);
+}
+
+
 export async function addNewTransaction(
   transaction: Transaction
 ): Promise<Transaction> {
@@ -55,3 +64,4 @@ export async function addNewTransaction(
 
   return transaction;
 }
+

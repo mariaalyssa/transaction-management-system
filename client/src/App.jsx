@@ -9,9 +9,12 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar />
+      <Sidebar
+        onGoToAdd={() => setView("add")}
+        onGoToTransactions={() => setView("transactions")}
+      />
       {view === "transactions" ? (
-        <Transactions onGoToAdd={() => setView("add")} />
+        <Transactions />
       ) : (
         <AddTransaction onBack={() => setView("transactions")} />
       )}
