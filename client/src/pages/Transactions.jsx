@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TransactionsTable from "../components/TransactionsTable";
+import Filter from "../components/Filter"
 
 export default function Transactions() {
   const [transactions, setTransactions] = useState([]);
@@ -39,6 +40,9 @@ export default function Transactions() {
     <div className="main">
      <div className="transaction-header">
         <h1>Transactions</h1>
+        <div>
+            <Filter/>
+        </div>
         </div>
       <TransactionsTable transactions={visibleTransactions} />
 
