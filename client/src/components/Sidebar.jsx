@@ -27,9 +27,7 @@ function Sidebar({ onGoToAdd, onGoToTransactions }) {
           <span>Add Transaction</span>
         </button>
 
-        <a href="/export" className="sidebar-item active">
-          <span>Export to PDF</span>
-        </a>
+       
 
       </nav>
 

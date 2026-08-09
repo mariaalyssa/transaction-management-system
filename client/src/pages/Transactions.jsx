@@ -15,7 +15,7 @@ export default function Transactions() {
         const endpoint =
           selectedStatus === "All"
             ? baseUrl
-            : `${baseUrl}/${selectedStatus.toLowerCase()}`;
+            : `${baseUrl}/${selectedStatus.toLowerCase()}`; // filter based on status (integrate endpoint for filter)
 
         const res = await fetch(endpoint);
         if (!res.ok) {
