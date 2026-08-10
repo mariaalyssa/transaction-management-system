@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SuccessModal from "./SuccessModal";
+import ErrorMessage from "./ErrorMessage";
 
 function getTodayIso() {
   const today = new Date();
@@ -7,6 +8,10 @@ function getTodayIso() {
   const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function isValidAccountNumber(value){
+  return  /^\d{4}-\d{4}-\d{4}$/.test(value);
 }
 
 function normalizeDateInput(input) {
@@ -46,44 +51,63 @@ function AddTransactionForm({ onBack }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorType, setErrorType] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    if (!accountNumber || !accountHolder || amount === "") {
-      setError("Please fill required fields: account number, holder, and amount.");
-      return;
-    }
+  if (!accountNumber || !accountHolder || amount === "") {
+    setError(
+      "Please fill required fields: account number, holder, and amount."
+    );
+    return;
+  }
 
-    const payload = {
-      transactionDate: normalizeDateInput(transactionDate) || undefined,
-      accountNumber: formatAccountNumber(accountNumber),
-      accountHolder,
-      amount: Number(amount),
-      status,
-    };
+  
+  if (!isValidAccountNumber(accountNumber)) {
+    setErrorType("accountNumber");
+    setShowErrorMessage(true);
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const res = await fetch("http://localhost:8080/add-new-transaction", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+  
+  if (!/^[a-zA-Z\s]+$/.test(accountHolder)) {
+    setErrorType("accountHolderName");
+    setShowErrorMessage(true);
+    return;
+  }
 
-      if (res.status === 201) {
-        setShowSuccess(true);
-      } else {
-        const body = await res.json().catch(() => ({}));
-        setError(body?.error || `Server returned ${res.status}`);
-      }
-    } catch (err) {
-      setError("Network error. Is the server running?");
-    } finally {
-      setLoading(false);
-    }
+  const payload = {
+    transactionDate: normalizeDateInput(transactionDate) || undefined,
+    accountNumber: formatAccountNumber(accountNumber),
+    accountHolder,
+    amount: Number(amount),
+    status,
   };
+
+  setLoading(true);
+
+  try {
+    const res = await fetch("http://localhost:8080/add-new-transaction", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.status === 201) {
+      setShowSuccess(true);
+    } else {
+      const body = await res.json().catch(() => ({}));
+      setError(body?.error || `Server returned ${res.status}`);
+    }
+  } catch (err) {
+    setError("Network error. Is the server running?");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="add-transaction-container">
@@ -122,6 +146,7 @@ function AddTransactionForm({ onBack }) {
               name="accountNumber"
               value={accountNumber}
               onChange={(e) => setAccountNumber(formatAccountNumber(e.target.value))}
+              onBlur={() => setShowErrorMessage(!isValidAccountNumber(accountNumber))}
               required
             />
           </div>
@@ -172,6 +197,11 @@ function AddTransactionForm({ onBack }) {
         setShowSuccess(false);
         onBack();
       }}
+    />
+    <ErrorMessage
+      showModal={showErrorMessage}
+      errorType={errorType}
+      onOk={() => setShowErrorMessage(false)}
     />
     </div>
   );
