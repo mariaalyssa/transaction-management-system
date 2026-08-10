@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TransactionsTable from "../components/TransactionsTable";
 import Filter from "../components/Filter";
 
-export default function Transactions() {
+export default function Transactions({ isCompactLayout = false }) {
   const [transactions, setTransactions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,9 +43,9 @@ export default function Transactions() {
   const visibleTransactions = transactions.slice(startIndex, startIndex + pageSize);
 
   return (
-    <div className="main">
-      <div className="transaction-header">
-        <h1>Transactions</h1>
+    <div className={`main ${isCompactLayout ? "compact-main" : ""}`}>
+      <div className={`transaction-header ${isCompactLayout ? "compact" : ""}`}>
+        {!isCompactLayout && <h1>Transactions</h1>}
         <div>
           <Filter
             selectedFilter={selectedStatus}

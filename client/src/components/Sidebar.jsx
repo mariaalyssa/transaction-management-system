@@ -1,6 +1,6 @@
 import logo from "../assets/logo.jpeg";
 
-function Sidebar({ onGoToAdd, onGoToTransactions }) {
+function Sidebar({ onGoToAdd, onGoToTransactions, currentView }) {
   return (
     <div className="sidebar">
 
@@ -19,11 +19,19 @@ function Sidebar({ onGoToAdd, onGoToTransactions }) {
 
       <nav className="sidebar-nav">
 
-        <button type="button" className="sidebar-item active" onClick={onGoToTransactions}>
+        <button
+          type="button"
+          className={`sidebar-item ${currentView === "transactions" ? "active" : ""}`}
+          onClick={onGoToTransactions}
+        >
           <span>Transactions</span>
         </button>
 
-        <button type="button" className="sidebar-item active" onClick={onGoToAdd}>
+        <button
+          type="button"
+          className={`sidebar-item ${currentView === "add" ? "active" : ""}`}
+          onClick={onGoToAdd}
+        >
           <span>Add Transaction</span>
         </button>
 

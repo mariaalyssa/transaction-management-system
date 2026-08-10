@@ -85,12 +85,17 @@ body,
   display: flex;
   align-items: center;
   gap: 14px;
+  width: 100%;
   padding: 14px 16px;
+  border: none;
+  background: transparent;
   border-radius: 8px;
   text-decoration: none;
   color: #9d7d7d;
   font-size: 16px;
   font-weight: 400;
+  text-align: left;
+  cursor: pointer;
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -564,5 +569,271 @@ body,
 
 .filter-option:hover {
   background-color: #f8f4f5;
+}
+
+.responsive-layout {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.responsive-topbar {
+  display: none;
+}
+
+.burger-button {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #e7dfdf;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.burger-button span {
+  width: 100%;
+  height: 2px;
+  background: #9d7d7d;
+  border-radius: 999px;
+}
+
+.responsive-page-title {
+  margin: 0;
+  font-size: 1.85rem;
+  color: #caa5a5;
+  font-weight: 500;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  border: none;
+  background: rgba(26, 17, 17, 0.32);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 30;
+}
+
+.sidebar-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.responsive-sidebar-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(78vw, 360px);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  z-index: 40;
+}
+
+.responsive-sidebar-drawer.open {
+  transform: translateX(0);
+}
+
+.responsive-sidebar-drawer .sidebar {
+  width: 100%;
+  min-height: 100%;
+  border-right: none;
+  box-shadow: 10px 0 30px rgba(60, 41, 41, 0.14);
+}
+
+@media (max-width: 1200px) {
+  html,
+  body,
+  #root {
+    overflow: auto;
+    height: 100%;
+  }
+
+  .app {
+    min-height: 100svh;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .app-responsive {
+    display: block;
+  }
+
+  .responsive-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .responsive-topbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #ece4e4;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .responsive-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 16px;
+  }
+
+  .main {
+    padding: 12px;
+  }
+
+  .compact-main {
+    padding-top: 8px;
+  }
+
+  .transaction-header {
+    margin: 0;
+    padding-top: 4px;
+  }
+
+  .transaction-header.compact {
+    justify-content: flex-end;
+  }
+
+  .transaction-table-wrapper {
+    margin-top: 20px;
+  }
+
+  .transaction-table {
+    min-width: 760px;
+  }
+
+  .transaction-table th {
+    height: 60px;
+    padding: 0 14px;
+    font-size: 16px;
+  }
+
+  .transaction-table td {
+    height: 66px;
+    padding: 0 14px;
+    font-size: 15px;
+  }
+
+  .status-badge {
+    width: 120px;
+    height: 34px;
+    font-size: 14px;
+  }
+
+  .filter-container {
+    width: 170px;
+  }
+
+  .filter-button {
+    height: 46px;
+    font-size: 16px;
+    padding: 0 14px;
+  }
+
+  .add-transaction-container {
+    padding: 8px 0 16px;
+  }
+
+  .compact-add-form {
+    width: 100%;
+  }
+
+  .add-form-scroll-region {
+    overflow-x: visible;
+    padding-bottom: 8px;
+  }
+
+  .add-form-scroll-region.stacked {
+    overflow-x: visible;
+  }
+
+  .transaction-form-grid {
+    min-width: 0;
+    max-width: 100%;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 20px;
+  }
+
+  .transaction-form-grid.stacked {
+    min-width: 0;
+    max-width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    min-width: 0;
+    max-width: 100%;
+    justify-content: flex-end;
+  }
+
+  .form-actions.stacked {
+    min-width: 0;
+    max-width: 100%;
+    justify-content: flex-end;
+  }
+
+  .form-actions button {
+    width: 170px;
+  }
+}
+
+@media (max-width: 640px) {
+  .responsive-sidebar-drawer {
+    width: min(84vw, 320px);
+  }
+
+  .responsive-page-title {
+    font-size: 1.45rem;
+  }
+
+  .transaction-table {
+    min-width: 680px;
+  }
+
+  .transaction-table th {
+    height: 52px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  .transaction-table td {
+    height: 58px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .status-badge {
+    width: 104px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .transaction-form-grid {
+    row-gap: 18px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
 }
 
