@@ -837,3 +837,31 @@ body,
   }
 }
 
+.transaction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.transaction-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search input {
+  height: 55px;
+  padding: 0 14px;
+  border: 0.5px solid #d0c8c8;
+  border-radius: 10px;
+  width: 100%;
+  background: #f8f5f5;
+  color: #a87979;
+}
+
+.search input,
+.filter-button {
+  font-family: 'Didact Gothic', sans-serif;
+}
