@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getTransactions, addNewTransaction, getTransactionByStatus } from "../services/transactionService";
+import { getTransactions, addNewTransaction, getTransactionByStatus, searchTransactionByAccountHolder } from "../services/transactionService";
 import { Transaction, transactionStatus } from "../models/transactions";
 import { normalizeDateInput } from "../utils/dateUtils";
 
@@ -122,7 +122,38 @@ router.post("/add-new-transaction", async (req, res) => {
   res.status(201).json(addedNewTransaction);
 });
 
+/**
+ * @openapi
+ /get-transactions/search:
+ *   get:
+ *     summary: Search transactions by account holder
+ *     parameters:
+ *       - in: query
+ *         name: accountHolder
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Partial or full account holder name
+ *     responses:
+ *       200:
+ *         description: A list of matching transactions
+ *       400:
+ *         description: accountHolder query param is required
+ */
 
+
+router.get("/get-transactions/search", async (req, res) => {
+  const accountHolder = String(req.query.accountHolder ?? "").trim();
+
+  if (!accountHolder) {
+    return res
+      .status(400)
+      .json({ error: "accountHolder query param is required" });
+  }
+
+  const results = await searchTransactionByAccountHolder(accountHolder);
+  res.json(results);
+});
 export default router;
 
 

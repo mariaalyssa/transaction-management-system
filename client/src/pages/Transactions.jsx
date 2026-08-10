@@ -1,21 +1,28 @@
 import { useEffect, useState } from "react";
 import TransactionsTable from "../components/TransactionsTable";
 import Filter from "../components/Filter";
+import Search from "../components/Search";
 
 export default function Transactions({ isCompactLayout = false }) {
   const [transactions, setTransactions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const pageSize = 10;
+
+  const baseUrl = "http://localhost:8080"
 
   useEffect(() => {
     async function loadTransactions() {
       try {
-        const baseUrl = "http://localhost:8080/get-transactions";
-        const endpoint =
-          selectedStatus === "All"
-            ? baseUrl
-            : `${baseUrl}/${selectedStatus.toLowerCase()}`; // filter based on status (integrate endpoint for filter)
+        const trimmedQuery = searchQuery.trim();
+        let endpoint = `${baseUrl}/get-transactions`;
+
+        if (trimmedQuery) {
+          endpoint = `${baseUrl}/get-transactions/search?accountHolder=${encodeURIComponent(trimmedQuery)}`;
+        } else if (selectedStatus !== "All") {
+          endpoint = `${baseUrl}/get-transactions/${selectedStatus.toLowerCase()}`;
+        }
 
         const res = await fetch(endpoint);
         if (!res.ok) {
@@ -36,7 +43,7 @@ export default function Transactions({ isCompactLayout = false }) {
     }
 
     loadTransactions();
-  }, [selectedStatus]);
+  }, [baseUrl, searchQuery, selectedStatus]);
 
   const totalPages = Math.ceil(transactions.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -46,11 +53,15 @@ export default function Transactions({ isCompactLayout = false }) {
     <div className={`main ${isCompactLayout ? "compact-main" : ""}`}>
       <div className={`transaction-header ${isCompactLayout ? "compact" : ""}`}>
         {!isCompactLayout && <h1>Transactions</h1>}
-        <div>
-          <Filter
+       <div className="transaction-controls">
+        <Search
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Filter
             selectedFilter={selectedStatus}
             onFilterChange={setSelectedStatus}
-          />
+        />
         </div>
       </div>
 
