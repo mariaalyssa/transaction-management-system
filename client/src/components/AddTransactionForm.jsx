@@ -42,7 +42,7 @@ function formatAccountNumber(value) {
   return digits.replace(/(.{4})/g, "$1-").replace(/-$/, "");
 }
 
-function AddTransactionForm({ onBack }) {
+function AddTransactionForm({ onBack, isCompactLayout = false }) {
   const [transactionDate, setTransactionDate] = useState(getTodayIso());
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
@@ -110,84 +110,86 @@ function AddTransactionForm({ onBack }) {
 };
 
   return (
-    <div className="add-transaction-container">
+    <div className={`add-transaction-container ${isCompactLayout ? "compact-add-form" : ""}`}>
       <form onSubmit={handleSubmit}>
-        <div className="transaction-form-grid">
-          <div className="form-group">
-            <label htmlFor="date">Date</label>
-            <input
-              id="date"
-              type="text"
-              name="date"
-              placeholder="yyyy-mm-dd"
-              value={transactionDate}
-              onChange={(e) => setTransactionDate(normalizeDateInput(e.target.value))}
-              autoComplete="on"
-            />
+        <div className={`add-form-scroll-region ${isCompactLayout ? "stacked" : ""}`}>
+          <div className={`transaction-form-grid ${isCompactLayout ? "stacked" : ""}`}>
+            <div className="form-group">
+              <label htmlFor="date">Date</label>
+              <input
+                id="date"
+                type="text"
+                name="date"
+                placeholder="yyyy-mm-dd"
+                value={transactionDate}
+                onChange={(e) => setTransactionDate(normalizeDateInput(e.target.value))}
+                autoComplete="on"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="accountHolder">Account Holder</label>
+              <input
+                id="accountHolder"
+                type="text"
+                name="accountHolder"
+                value={accountHolder}
+                onChange={(e) => setAccountHolder(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="accountNumber">Account Number</label>
+              <input
+                id="accountNumber"
+                type="text"
+                name="accountNumber"
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(formatAccountNumber(e.target.value))}
+                onBlur={() => setShowErrorMessage(!isValidAccountNumber(accountNumber))}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="amount">Amount</label>
+              <input
+                id="amount"
+                type="number"
+                name="amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="status">Status</label>
+              <select
+                id="status"
+                name="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="Pending">Pending</option>
+                <option value="Settled">Settled</option>
+                <option value="Failed">Failed</option>
+              </select>
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="accountHolder">Account Holder</label>
-            <input
-              id="accountHolder"
-              type="text"
-              name="accountHolder"
-              value={accountHolder}
-              onChange={(e) => setAccountHolder(e.target.value)}
-              required
-            />
+          {error && <div className="form-error">{error}</div>}
+
+          <div className={`form-actions ${isCompactLayout ? "stacked" : ""}`}>
+            <button type="button" className="cancel-btn" onClick={onBack} disabled={loading}>
+              Cancel
+            </button>
+
+            <button type="submit" className="submit-btn" disabled={loading}>
+              {loading ? "Submitting..." : "Submit"}
+            </button>
           </div>
-
-          <div className="form-group">
-            <label htmlFor="accountNumber">Account Number</label>
-            <input
-              id="accountNumber"
-              type="text"
-              name="accountNumber"
-              value={accountNumber}
-              onChange={(e) => setAccountNumber(formatAccountNumber(e.target.value))}
-              onBlur={() => setShowErrorMessage(!isValidAccountNumber(accountNumber))}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="amount">Amount</label>
-            <input
-              id="amount"
-              type="number"
-              name="amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="status">Status</label>
-            <select
-              id="status"
-              name="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="Pending">Pending</option>
-              <option value="Settled">Settled</option>
-              <option value="Failed">Failed</option>
-            </select>
-          </div>
-        </div>
-
-        {error && <div className="form-error">{error}</div>}
-
-        <div className="form-actions">
-          <button type="button" className="cancel-btn" onClick={onBack} disabled={loading}>
-            Cancel
-          </button>
-
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Submitting..." : "Submit"}
-          </button>
         </div>
       </form>
 
