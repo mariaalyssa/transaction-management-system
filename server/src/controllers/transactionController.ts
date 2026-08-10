@@ -8,7 +8,7 @@ const router = Router();
 
 /**
  * @openapi
- * /get-transactions:
+ * /transactions:
  *   get:
  *     summary: Get all transactions
  *     responses:
@@ -16,7 +16,7 @@ const router = Router();
  *         description: A list of transactions
  */
 
-router.get("/get-transactions", async (req, res) => {
+router.get("/transactions", async (req, res) => {
     const transactions = await getTransactions();
     res.json(transactions);
 });
@@ -69,7 +69,7 @@ router.get("/get-transactions/failed", async (_req, res) => {
 
 /**
  * @openapi
- * /add-new-transaction:
+ * /transactions:
  *   post:
  *     summary: Add a new transaction
  *     requestBody:
@@ -100,7 +100,7 @@ router.get("/get-transactions/failed", async (_req, res) => {
  *         description: Transaction added
  */
 
-router.post("/add-new-transaction", async (req, res) => {
+router.post("/transactions", async (req, res) => {
   const normalizedTransactionDate = normalizeDateInput(req.body?.transactionDate);
 
   const transaction = {

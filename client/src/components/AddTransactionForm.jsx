@@ -90,7 +90,7 @@ function AddTransactionForm({ onBack, isCompactLayout = false }) {
   setLoading(true);
 
   try {
-    const res = await fetch("http://localhost:8080/add-new-transaction", {
+    const res = await fetch("http://localhost:8080/transactions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -118,13 +118,14 @@ function AddTransactionForm({ onBack, isCompactLayout = false }) {
               <label htmlFor="date">Date</label>
               <input
                 id="date"
-                type="text"
+                type="date"
                 name="date"
                 placeholder="yyyy-mm-dd"
                 value={transactionDate}
                 onChange={(e) => setTransactionDate(normalizeDateInput(e.target.value))}
                 autoComplete="on"
               />
+
             </div>
 
             <div className="form-group">
