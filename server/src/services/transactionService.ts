@@ -65,3 +65,14 @@ export async function addNewTransaction(
   return transaction;
 }
 
+export async function searchTransactionByAccountHolder(
+  accountHolder: string
+): Promise<Transaction[]> {
+  const transactions = await getTransactions();
+  const query = accountHolder.trim().toLowerCase();
+  if (!query) return transactions;
+
+  return transactions.filter((transaction) =>
+    transaction.accountHolder.toLowerCase().includes(query)
+  );
+}
