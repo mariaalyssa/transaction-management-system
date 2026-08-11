@@ -43,6 +43,22 @@ function App() {
       />
     );
 
+  const addTransactionModal = isAddModalOpen ? (
+    <div className="modal-backdrop" onClick={closeAddModal}>
+      <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+        <button type="button" className="modal-close" onClick={closeAddModal}>
+          ×
+        </button>
+        <AddTransaction
+          isCompactLayout={isResponsiveLayout}
+          onBack={closeAddModal}
+          onSuccess={refreshTransactions}
+          isModal
+        />
+      </div>
+    </div>
+  ) : null;
+
   if (isResponsiveLayout) {
     return (
       <div className="app app-responsive">
@@ -57,6 +73,7 @@ function App() {
         >
           {content}
         </ResponsiveLayout>
+        {addTransactionModal}
       </div>
     );
   }
@@ -72,21 +89,7 @@ function App() {
         onGoToTransactions={() => setView("transactions")}
       />
       {content}
-      {isAddModalOpen && (
-        <div className="modal-backdrop" onClick={closeAddModal}>
-          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <button type="button" className="modal-close" onClick={closeAddModal}>
-              ×
-            </button>
-            <AddTransaction
-              isCompactLayout={isResponsiveLayout}
-              onBack={closeAddModal}
-              onSuccess={refreshTransactions}
-              isModal
-            />
-          </div>
-        </div>
-      )}
+      {addTransactionModal}
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function Transactions({ isCompactLayout = false, onOpenAddModal, 
         const trimmedQuery = searchQuery.trim();
         let endpoint = `${baseUrl}/transactions`;
 
-        if (trimmedQuery) {``
+        if (trimmedQuery) {
           endpoint = `${baseUrl}/get-transactions/search?accountHolder=${encodeURIComponent(trimmedQuery)}`;
         } else if (selectedStatus !== "All") {
           endpoint = `${baseUrl}/get-transactions/${selectedStatus.toLowerCase()}`;
