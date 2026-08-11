@@ -82,7 +82,7 @@ Example response:
   "status": "Pending"
 }
 
-### GET /get-transactions-pending
+### GET /get-transactions/pending
 Gets all pending transactions.
 
 Example response:
@@ -94,7 +94,7 @@ Example response:
     "status": "Pending"
 },
 
-### GET /get-transactions-settled
+### GET /get-transactions/settled
 Gets all settled transactions.
 
 Example response:
@@ -106,7 +106,7 @@ Example response:
     "status": "Settled"
 },
 
-### GET /get-transactions-failed
+### GET /get-transactions/failed
 Gets all failed transactions.
 
 Example response:
