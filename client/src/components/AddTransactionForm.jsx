@@ -42,7 +42,7 @@ function formatAccountNumber(value) {
   return digits.replace(/(.{4})/g, "$1-").replace(/-$/, "");
 }
 
-function AddTransactionForm({ onBack, isCompactLayout = false }) {
+function AddTransactionForm({ onBack, onSuccess, isCompactLayout = false }) {
   const [transactionDate, setTransactionDate] = useState(getTodayIso());
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
@@ -79,30 +79,43 @@ function AddTransactionForm({ onBack, isCompactLayout = false }) {
     return;
   }
 
+  const statuses = ["Pending", "Settled", "Failed"];
+  const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+  setStatus(randomStatus);
+
   const payload = {
     transactionDate: normalizeDateInput(transactionDate) || undefined,
     accountNumber: formatAccountNumber(accountNumber),
     accountHolder,
     amount: Number(amount),
-    status,
+    status: randomStatus,
   };
 
+  console.log("Submitting transaction payload:", payload);
   setLoading(true);
 
   try {
+    console.log("Sending POST request to http://localhost:8080/transactions");
     const res = await fetch("http://localhost:8080/transactions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
+    console.log("POST response status:", res.status);
+    console.log("POST response headers:", Object.fromEntries(res.headers.entries()));
+
     if (res.status === 201) {
+      onSuccess?.();
       setShowSuccess(true);
+      console.log("Transaction created successfully");
     } else {
       const body = await res.json().catch(() => ({}));
+      console.log("POST response body:", body);
       setError(body?.error || `Server returned ${res.status}`);
     }
   } catch (err) {
+    console.error("Transaction submission failed:", err);
     setError("Network error. Is the server running?");
   } finally {
     setLoading(false);
@@ -165,19 +178,6 @@ function AddTransactionForm({ onBack, isCompactLayout = false }) {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="status">Status</label>
-              <select
-                id="status"
-                name="status"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="Pending">Pending</option>
-                <option value="Settled">Settled</option>
-                <option value="Failed">Failed</option>
-              </select>
-            </div>
           </div>
 
           {error && <div className="form-error">{error}</div>}
