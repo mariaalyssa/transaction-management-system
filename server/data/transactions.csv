@@ -51,3 +51,6 @@ Transaction Date,Account Number,Account Holder Name,Amount,Status
 2026-08-11, 1929-2992-9292, test four, 299, Pending
 2026-08-11, 2299-2929-2992, olivia rodrigo, 800, Pending
 2026-08-11, 2929-9292-1111, Sabrina Carpenter, 1000, Pending
+2026-08-11, 1111-1111-1111, Test random status, 100, Failed
+2026-08-11, 2222-2222-2222, Test random status two, 200, Failed
+2026-08-11, 1020-2818-8182, Three, 300, Settled
