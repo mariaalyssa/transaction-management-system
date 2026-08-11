@@ -8,7 +8,7 @@ A simple transaction management system with:
 ## Features
 - View all transactions in a table
 - Filter/search transactions
-- Add a transaction through a modal form
+- Add transaction through add transaction modal
 - Store data in CSV format
 - Status colors for Pending, Settled, and Failed
 - Random selection of status
@@ -107,7 +107,7 @@ Example response:
 },
 
 ### GET /get-transactions-failed
-Gets all settled transactions.
+Gets all failed transactions.
 
 Example response:
 {
@@ -118,8 +118,8 @@ Example response:
     "status": "Failed"
 },
 
-### GET /get-transactions-failed
-Gets all settled transactions.
+### GET /get-transactions-search
+Search transactions by name (partial or full).
 
 Example request body:
 {
