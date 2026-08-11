@@ -7,6 +7,8 @@ import ResponsiveLayout from "./components/ResponsiveLayout";
 
 function App() {
   const [view, setView] = useState("transactions");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0); 
   const [isResponsiveLayout, setIsResponsiveLayout] = useState(
     window.innerWidth <= 1200
   );
@@ -23,9 +25,17 @@ function App() {
     };
   }, []);
 
+  const openAddModal = () => setIsAddModalOpen(true);
+  const closeAddModal = () => setIsAddModalOpen(false);
+  const refreshTransactions = () => setRefreshTrigger((prev) => prev + 1);
+
   const content =
     view === "transactions" ? (
-      <Transactions isCompactLayout={isResponsiveLayout} />
+      <Transactions
+        isCompactLayout={isResponsiveLayout}
+        onOpenAddModal={openAddModal}
+        refreshTrigger={refreshTrigger}
+      />
     ) : (
       <AddTransaction
         isCompactLayout={isResponsiveLayout}
@@ -38,7 +48,10 @@ function App() {
       <div className="app app-responsive">
         <ResponsiveLayout
           currentView={view}
-          onGoToAdd={() => setView("add")}
+          onGoToAdd={() => {
+            setView("transactions");
+            openAddModal();
+          }}
           onGoToTransactions={() => setView("transactions")}
           title={view === "transactions" ? "Transactions" : "Add Transaction"}
         >
@@ -52,10 +65,28 @@ function App() {
     <div className="app">
       <Sidebar
         currentView={view}
-        onGoToAdd={() => setView("add")}
+        onGoToAdd={() => {
+          setView("transactions");
+          openAddModal();
+        }}
         onGoToTransactions={() => setView("transactions")}
       />
       {content}
+      {isAddModalOpen && (
+        <div className="modal-backdrop" onClick={closeAddModal}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="modal-close" onClick={closeAddModal}>
+              ×
+            </button>
+            <AddTransaction
+              isCompactLayout={isResponsiveLayout}
+              onBack={closeAddModal}
+              onSuccess={refreshTransactions}
+              isModal
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

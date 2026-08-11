@@ -4,7 +4,7 @@ import Filter from "../components/Filter";
 import Search from "../components/Search";
 import AddTransactionBtn from "../components/AddTransactionBtn";
 
-export default function Transactions({ isCompactLayout = false }) {
+export default function Transactions({ isCompactLayout = false, onOpenAddModal, refreshTrigger = 0 }) {
   const [transactions, setTransactions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +44,7 @@ export default function Transactions({ isCompactLayout = false }) {
     }
 
     loadTransactions();
-  }, [baseUrl, searchQuery, selectedStatus]);
+  }, [baseUrl, refreshTrigger, searchQuery, selectedStatus]);
 
   const totalPages = Math.ceil(transactions.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -59,7 +59,7 @@ export default function Transactions({ isCompactLayout = false }) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <AddTransactionBtn onClick={() => {}} />
+        <AddTransactionBtn onClick={onOpenAddModal} />
         <Filter
           selectedFilter={selectedStatus}
           onFilterChange={setSelectedStatus}

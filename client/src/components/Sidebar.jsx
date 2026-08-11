@@ -26,17 +26,6 @@ function Sidebar({ onGoToAdd, onGoToTransactions, currentView }) {
         >
           <span>Transactions</span>
         </button>
-
-        <button
-          type="button"
-          className={`sidebar-item ${currentView === "add" ? "active" : ""}`}
-          onClick={onGoToAdd}
-        >
-          <span>Add Transaction</span>
-        </button>
-
-       
-
       </nav>
 
     </div>
