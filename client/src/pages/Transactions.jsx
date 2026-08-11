@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import TransactionsTable from "../components/TransactionsTable";
 import Filter from "../components/Filter";
 import Search from "../components/Search";
+import AddTransactionBtn from "../components/AddTransactionBtn";
 
 export default function Transactions({ isCompactLayout = false }) {
   const [transactions, setTransactions] = useState([]);
@@ -53,16 +54,17 @@ export default function Transactions({ isCompactLayout = false }) {
     <div className={`main ${isCompactLayout ? "compact-main" : ""}`}>
       <div className={`transaction-header ${isCompactLayout ? "compact" : ""}`}>
         {!isCompactLayout && <h1>Transactions</h1>}
-       <div className="transaction-controls">
+      <div className="transaction-controls">
         <Search
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
+        <AddTransactionBtn onClick={() => {}} />
         <Filter
-            selectedFilter={selectedStatus}
-            onFilterChange={setSelectedStatus}
+          selectedFilter={selectedStatus}
+          onFilterChange={setSelectedStatus}
         />
-        </div>
+      </div>
       </div>
 
       <TransactionsTable transactions={visibleTransactions} />

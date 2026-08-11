@@ -138,6 +138,27 @@ body,
   color: #d3adad;
 }
 
+.transaction-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search input {
+  height: 42px;
+  min-width: 240px;
+  padding: 0 14px;
+  border: 1px solid #e2d3d3;
+  border-radius: 10px;
+  background: #fff;
+  color: #8c6f6f;
+  outline: none;
+}
+
+.search input:focus {
+  border-color: #83e4d8;
+}
 
 .transaction-table-wrapper {
   width: 100%;
@@ -293,15 +314,22 @@ body,
 
 .add-transaction-btn {
   height: 42px;
-  min-width: 120px;
+  min-width: 132px;
   padding: 0 18px;
   border: none;
   border-radius: 10px;
   background-color: #83e4d8;
   color: #ffffff;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   width: fit-content;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.add-transaction-btn:hover {
+  background-color: #6ed8ca;
+  transform: translateY(-1px);
 }
 
 .add-transaction-container {
